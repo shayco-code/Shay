@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shay & Co. — Marketing & Consultancy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#19375E;
+    --mustard:#FCDC89;
+    --red:#D62938;
+    --brick:#AF1E04;
+    --blue-tint:#DFEFFF;
+    --cream:#FDFDFE;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Poppins',sans-serif;
+    color:var(--navy);
+    background:var(--cream);
+    overflow-x:hidden;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  ul{list-style:none;}
+  .wrap{max-width:1240px; margin:0 auto; padding:0 6vw;}
+
+  h1,h2,h3{font-family:'Playfair Display'; font-weight:800; line-height:1.05;}
+
+  /* ================= MARQUEE ================= */
+  .marquee-strip{
+    background:var(--navy);
+    color:var(--mustard);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:11px 0;
+    position:relative;
+  }
+  .marquee-track{
+    display:inline-flex;
+    animation:scrollLeft 22s linear infinite;
+  }
+  .marquee-track span{
+    font-family:'Playfair Display';
+    font-style:italic;
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:.03em;
+    padding:0 28px;
+    display:inline-flex;
+    align-items:center;
+    gap:28px;
+  }
+  .marquee-track span::after{
+    content:'✦';
+    font-style:normal;
+    color:var(--red);
+    font-size:11px;
+  }
+  @keyframes scrollLeft{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none;}
+  }
+
+  /* ================= NAV ================= */
+  .navbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 6vw;
+    background:var(--cream);
+    border-bottom:1px solid rgba(25,55,94,.08);
+    position:sticky; top:0; z-index:100;
+  }
+  .navbar .logo-img{height:38px; width:auto;}
+  .navbar nav ul{display:flex; gap:38px;}
+  .navbar nav a{
+    font-weight:600; font-size:15px; text-decoration:none; color:var(--navy);
+    position:relative; padding:4px 0;
+  }
+  .navbar nav a::after{
+    content:''; position:absolute; left:0; bottom:0; width:0; height:2px;
+    background:var(--red); transition:width .25s ease;
+  }
+  .navbar nav a:hover::after{width:100%;}
+  .book-call{
+    background:var(--red); color:#fff; font-weight:700; font-size:14px;
+    padding:12px 26px; border-radius:30px; text-decoration:none;
+    box-shadow:0 6px 16px rgba(214,41,56,.3);
+    transition:transform .18s ease, box-shadow .18s ease;
+    white-space:nowrap;
+  }
+  .book-call:hover{transform:translateY(-2px); box-shadow:0 10px 22px rgba(214,41,56,.4);}
+  .nav-toggle{display:none; font-size:26px; background:none; border:none; color:var(--navy); cursor:pointer;}
+
+  @media (max-width:900px){
+    .navbar nav{display:none;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ================= HERO ================= */
+  .hero{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    min-height:82vh;
+  }
+  .hero-copy{
+    display:flex; flex-direction:column; justify-content:center;
+    padding:8vh 6vw 8vh 6vw;
+  }
+  .hero-eyebrow{
+    font-weight:600; font-size:13px; letter-spacing:.1em; color:var(--brick);
+    margin-bottom:22px;
+  }
+  .hero-copy h1{
+    font-size:clamp(40px, 5vw, 68px);
+    color:var(--navy);
+    margin-bottom:22px;
+    max-width:11ch;
+  }
+  .hero-copy h1 em{
+    font-style:italic; color:var(--red); font-weight:700;
+  }
+  .hero-sub{
+    font-size:17px; font-weight:500; color:var(--navy); opacity:.75;
+    margin-bottom:40px;
+  }
+  .hero-sub .sep{color:var(--red); margin:0 10px; opacity:1;}
+  .hero-cta{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--navy); color:var(--mustard);
+    font-weight:700; font-size:15px;
+    padding:17px 34px; border-radius:40px; text-decoration:none;
+    width:fit-content;
+    transition:transform .18s ease, background .18s ease;
+  }
+  .hero-cta:hover{transform:translateY(-2px); background:var(--brick); color:#fff;}
+  .hero-cta svg{width:16px; height:16px; transition:transform .18s ease;}
+  .hero-cta:hover svg{transform:translateX(4px);}
+
+  .hero-photo{
+    position:relative;
+    background:var(--blue-tint);
+    overflow:hidden;
+  }
+  .hero-photo .placeholder-fill{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:10px;
+    background:
+      repeating-linear-gradient(135deg, rgba(25,55,94,.06) 0px, rgba(25,55,94,.06) 2px, transparent 2px, transparent 18px),
+      var(--blue-tint);
+    border-left:6px solid var(--red);
+    text-align:center;
+    padding:40px;
+  }
+  .placeholder-fill .ph-label{
+    font-family:'Playfair Display'; font-style:italic; font-weight:700;
+    font-size:22px; color:var(--navy);
+  }
+  .placeholder-fill .ph-sub{
+    font-size:13px; color:var(--navy); opacity:.65; max-width:280px;
+  }
+  .hero-photo img{
+    width:100%; height:100%; object-fit:cover; position:absolute; inset:0;
+  }
+
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;}
+    .hero-photo{height:60vh; order:-1;}
+    .hero-copy{padding:6vh 6vw;}
+  }
+
+  /* ================= SERVICES ================= */
+  .services{
+    background:var(--cream);
+    padding:110px 0 100px;
+  }
+  .section-head{
+    text-align:center;
+    max-width:640px;
+    margin:0 auto 64px;
+  }
+  .section-eyebrow{
+    display:inline-block;
+    font-weight:600; font-size:13px; letter-spacing:.12em;
+    color:var(--brick);
+    margin-bottom:18px;
+  }
+  .section-head h2{
+    font-size:clamp(34px, 4.2vw, 52px);
+    color:var(--navy);
+  }
+  .section-head h2 em{color:var(--red); font-style:italic;}
+
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:0;
+    border-top:1px solid rgba(25,55,94,.12);
+  }
+  .service-card{
+    padding:44px 30px;
+    border-right:1px solid rgba(25,55,94,.12);
+    border-bottom:1px solid rgba(25,55,94,.12);
+    transition:background .22s ease;
+  }
+  .service-card:last-child{border-right:none;}
+  .service-card:hover{background:var(--blue-tint);}
+  .service-num{
+    font-family:'Playfair Display'; font-style:italic; font-weight:700;
+    color:var(--mustard); -webkit-text-stroke:1px var(--navy);
+    font-size:32px; margin-bottom:22px; display:block;
+  }
+  .service-card h3{
+    font-size:21px; font-weight:700; color:var(--navy); margin-bottom:12px; line-height:1.2;
+  }
+  .service-card p{
+    font-size:14px; color:var(--navy); opacity:.7; line-height:1.6;
+  }
+
+  @media (max-width:900px){
+    .services-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:560px){
+    .services-grid{grid-template-columns:1fr;}
+  }
+
+  .services-cta{
+    text-align:center; margin-top:56px;
+  }
+  .text-link{
+    font-weight:700; font-size:15px; text-decoration:none; color:var(--navy);
+    border-bottom:2px solid var(--red); padding-bottom:4px;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:gap .18s ease;
+  }
+  .text-link:hover{gap:14px;}
+
+  /* ================= WORK ================= */
+  .work{
+    background:var(--navy);
+    padding:110px 0 100px;
+    color:var(--cream);
+    position:relative;
+    overflow:hidden;
+  }
+  .work .section-eyebrow{color:var(--mustard);}
+  .work .section-head h2{color:#fff;}
+  .work .section-head h2 em{color:var(--mustard);}
+  .work .section-head p{color:var(--blue-tint); font-size:15px; margin-top:16px;}
+
+  .work-collage{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:20px;
+    margin-top:20px;
+  }
+  .work-item{
+    background:#fff;
+    padding:10px 10px 0;
+    border-radius:3px;
+    box-shadow:0 20px 40px rgba(0,0,0,.35);
+    transition:transform .25s ease;
+  }
+  .work-item:hover{transform:translateY(-8px) rotate(0deg) !important;}
+  .work-item .thumb{aspect-ratio:4/5; overflow:hidden; background:#eee;}
+  .work-item img{width:100%; height:100%; object-fit:cover;}
+  .work-item .cap{
+    padding:14px 4px 16px;
+    font-family:'Playfair Display'; font-style:italic; font-weight:600;
+    font-size:14px; color:var(--navy); text-align:center;
+  }
+  .work-item:nth-child(1){transform:rotate(-4deg);}
+  .work-item:nth-child(2){transform:rotate(3deg); margin-top:30px;}
+  .work-item:nth-child(3){transform:rotate(-2deg);}
+  .work-item:nth-child(4){transform:rotate(4deg); margin-top:18px;}
+  .work-item:nth-child(5){transform:rotate(-5deg);}
+
+  .work-client{
+    text-align:center; margin-top:48px;
+    font-family:'Playfair Display'; font-style:italic; font-size:19px;
+    color:var(--blue-tint);
+  }
+  .work-client b{color:var(--mustard); font-style:normal;}
+
+  @media (max-width:900px){
+    .work-collage{grid-template-columns:repeat(2,1fr);}
+    .work-item, .work-item:nth-child(odd), .work-item:nth-child(even){margin-top:0;}
+  }
+
+  /* ================= FOOTER ================= */
+  footer{
+    background:var(--brick);
+    color:var(--cream);
+    padding:80px 0 30px;
+  }
+  .footer-top{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:56px;
+    border-bottom:1px solid rgba(255,255,255,.18);
+  }
+  .footer-brand .logo-img{height:34px; margin-bottom:18px; filter:brightness(0) invert(1);}
+  .footer-brand p{font-size:14px; line-height:1.7; opacity:.85; max-width:280px;}
+  .footer-col h4{
+    font-family:'Poppins'; font-weight:700; font-size:14px; letter-spacing:.06em;
+    text-transform:uppercase; margin-bottom:20px; color:var(--mustard);
+  }
+  .footer-col ul li{margin-bottom:12px;}
+  .footer-col a{font-size:14px; text-decoration:none; opacity:.85; transition:opacity .18s;}
+  .footer-col a:hover{opacity:1; text-decoration:underline;}
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:26px; font-size:13px; opacity:.75; flex-wrap:wrap; gap:12px;
+  }
+  .footer-bottom .socials{display:flex; gap:16px;}
+  .footer-bottom .socials a{text-decoration:none; font-weight:600; opacity:.9;}
+
+  @media (max-width:900px){
+    .footer-top{grid-template-columns:1fr 1fr; row-gap:36px;}
+  }
+  @media (max-width:560px){
+    .footer-top{grid-template-columns:1fr;}
+    .footer-bottom{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span>Marketing &amp; Consultancy</span>
+    <span>Marketing &amp; Consultancy</span>
+    <span>Marketing &amp; Consultancy</span>
+    <span>Marketing &amp; Consultancy</span>
+    <span>Marketing &amp; Consultancy</span>
+    <span>Marketing &amp; Consultancy</span>
+    <span>Marketing &amp; Consultancy</span>
+    <span>Marketing &amp; Consultancy</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="navbar">
+  <a href="#home"><img class="logo-img" src="Logo.png" alt="Shay & Co."></a>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <a href="#contact" class="book-call">Book a Call</a>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-copy">
+    <span class="hero-eyebrow">CONTENT · STRATEGY · DESIGN</span>
+    <h1>Stories that <em>stop</em> the scroll.</h1>
+    <p class="hero-sub">Brand Strategy <span class="sep">|</span> Storytelling <span class="sep">|</span> Design</p>
+    <a href="#services" class="hero-cta">
+      Explore Our Services
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+  <div class="hero-photo">
+    <!-- PLACEHOLDER: replace with uploaded "Photo 1" -->
+    <div class="placeholder-fill">
+      <span class="ph-label">Photo "1" goes here</span>
+      <span class="ph-sub">Drop in your hero image and I'll place it full-bleed in this panel.</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow">[ WHAT WE DO ]</span>
+      <h2>Services built to make brands <em>impossible</em> to ignore.</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-num">01</span>
+        <h3>Social Media Management</h3>
+        <p>Content calendars, community management, and day-to-day handling that keeps your brand consistently online.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">02</span>
+        <h3>Email Marketing</h3>
+        <p>Campaigns and flows written to be opened, read, and acted on — not scrolled past.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">03</span>
+        <h3>Websites</h3>
+        <p>Fast, on-brand sites that turn visitors into customers, built around how people actually browse.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">04</span>
+        <h3>Logo &amp; Brand Strategy</h3>
+        <p>Identity systems and positioning that give a brand a point of view worth remembering.</p>
+      </div>
+    </div>
+    <div class="services-cta">
+      <a href="#" class="text-link">Explore All Services
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- OUR WORK -->
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow">[ OUR WORK ]</span>
+      <h2>Recent <em>stories</em> we've told.</h2>
+      <p>Placeholder shots below — real project photos go here once you share the finals.</p>
+    </div>
+    <div class="work-collage">
+      <div class="work-item">
+        <div class="thumb"><img src="shivara_01.jpg" alt="Shivara Jewels content"></div>
+        <div class="cap">soft details</div>
+      </div>
+      <div class="work-item">
+        <div class="thumb"><img src="shivara_03.jpg" alt="Shivara Jewels content"></div>
+        <div class="cap">emeralds that whisper</div>
+      </div>
+      <div class="work-item">
+        <div class="thumb"><img src="shivara_06.jpg" alt="Shivara Jewels content"></div>
+        <div class="cap">statement metals</div>
+      </div>
+      <div class="work-item">
+        <div class="thumb"><img src="shivara_heritage_02.jpg" alt="Shivara Jewels content"></div>
+        <div class="cap">the Shivara woman</div>
+      </div>
+      <div class="work-item">
+        <div class="thumb"><img src="shivara_09.jpg" alt="Shivara Jewels content"></div>
+        <div class="cap">fresh tones</div>
+      </div>
+    </div>
+    <p class="work-client">Instagram grid, campaign creatives &amp; product content for <b>Shivara Jewels</b></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="logo-img" src="Logo.png" alt="Shay & Co.">
+        <p>Stories that stop the scroll. We help brands become impossible to ignore online.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#work">Portfolio</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get in Touch</h4>
+        <ul>
+          <li><a href="mailto:Shaycodesign@gmail.com">Shaycodesign@gmail.com</a></li>
+          <li><a href="https://instagram.com/shayandco" target="_blank" rel="noopener">@Shay&amp;Co on Instagram</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Shay &amp; Co. All rights reserved.</span>
+      <div class="socials">
+        <a href="https://instagram.com/shayandco" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
