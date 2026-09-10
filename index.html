@@ -56,11 +56,20 @@
   #intro.hide{opacity:0; visibility:hidden; pointer-events:none;}
   body.locked{overflow:hidden; height:100vh;}
 
-  /* ================= NAV ================= */
+  /* ================= NAV (fixed, persists across all sections) ================= */
   .site-nav{
-    position:absolute; top:0; left:0; right:0; z-index:50;
+    position:fixed; top:0; left:0; right:0; z-index:200;
     display:flex; align-items:center; justify-content:space-between;
-    padding:34px 6vw;
+    padding:22px 6vw;
+    background:transparent;
+    transition:background .35s ease, padding .35s ease, box-shadow .35s ease;
+  }
+  .site-nav.scrolled{
+    background:rgba(25,55,94,.82);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    padding:14px 6vw;
+    box-shadow:0 6px 24px rgba(0,0,0,.2);
   }
   .site-nav ul{display:flex; gap:40px; list-style:none;}
   .site-nav a{
@@ -72,11 +81,16 @@
     transition:width .25s ease;
   }
   .site-nav a:hover::after{width:100%;}
-  .site-nav .logo-mark{height:30px;}
+  .site-nav .logo-mark{
+    height:52px;
+    transition:height .35s ease;
+  }
+  .site-nav.scrolled .logo-mark{height:42px;}
   .nav-toggle{display:none; background:none; border:none; color:#fff; font-size:26px; cursor:pointer;}
   @media (max-width:860px){
     .site-nav ul{display:none;}
     .nav-toggle{display:block;}
+    .site-nav .logo-mark{height:40px;}
   }
 
   /* ================= HERO + PORTFOLIO (shared mountain bg) ================= */
@@ -119,33 +133,46 @@
     aspect-ratio:16/10;
   }
 
-  /* closed cover */
+  /* spiral coil strip — reused on the closed cover's left edge and the open spread's centre gutter */
+  .spiral-strip{
+    position:absolute; top:8px; bottom:8px; width:26px;
+    background-image:
+      radial-gradient(circle at 50% 50%, transparent 0 6px, rgba(0,0,0,.35) 6px 8px, transparent 8px),
+      radial-gradient(circle at 50% 50%, rgba(255,255,255,.5) 0 2px, transparent 2px);
+    background-size:100% 24px, 100% 24px;
+    background-position:0 0, 0 -2px;
+    background-repeat:repeat-y;
+    z-index:8;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.25));
+  }
+
+  /* closed cover — spiral notebook, coil bound on the left edge */
   .cover{
     position:absolute; inset:0;
-    background:linear-gradient(135deg, var(--cream) 0%, #ddd6c6 100%);
-    border-radius:6px;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,.5), transparent 40%),
+      radial-gradient(circle at 80% 75%, rgba(228,138,137,.18), transparent 45%),
+      linear-gradient(135deg, var(--cream) 0%, #ddd6c6 60%, #cdbfa8 100%);
+    border-radius:4px;
     box-shadow:0 40px 80px rgba(0,0,0,.4);
     display:flex; align-items:center; justify-content:center;
-    flex-direction:column; gap:14px;
+    flex-direction:column; gap:10px;
     cursor:pointer;
     transition:transform .7s cubic-bezier(.6,.1,.25,1), opacity .6s ease;
     transform-origin:left center;
     z-index:5;
+    padding-left:36px;
   }
-  .cover::before{
-    content:''; position:absolute; left:0; top:0; bottom:0; width:14px;
-    background:repeating-linear-gradient(180deg, rgba(0,0,0,.08) 0 3px, transparent 3px 8px);
-    border-radius:6px 0 0 6px;
-  }
+  .cover .spiral-strip{left:0;}
   .cover .cover-label{
-    font-family:'Open Sauce Sans'; font-weight:700; font-size:13px; letter-spacing:.28em;
-    color:var(--brown); text-transform:uppercase;
+    font-family:'Open Sauce Sans'; font-weight:700; font-size:12px; letter-spacing:.28em;
+    color:var(--brown); text-transform:uppercase; margin-bottom:6px;
   }
   .cover .cover-script{
-    font-family:'Pinyon Script'; font-size:56px; color:var(--navy);
+    font-family:'Pinyon Script'; font-size:48px; color:var(--navy); line-height:1.15; text-align:center;
   }
   .cover .cover-hint{
-    font-size:12px; color:var(--tan); letter-spacing:.08em; margin-top:6px;
+    font-size:12px; color:var(--tan); letter-spacing:.08em; margin-top:10px;
   }
   .album.open .cover{
     transform:rotateY(-108deg) translateX(-6%);
@@ -167,12 +194,6 @@
     background:linear-gradient(90deg, transparent, rgba(0,0,0,.12), transparent);
     display:flex;
   }
-  .ring{
-    position:absolute; left:50%; width:22px; height:22px; transform:translateX(-50%);
-    border:3px solid #c9c2ae; border-radius:50%; background:#efe9da; z-index:6;
-  }
-  .r1{top:28%;} .r2{top:48%;} .r3{top:68%;}
-
   .page-left{position:relative; padding:26px;}
   .page-right{position:relative; padding:26px; display:flex; align-items:center; justify-content:center;}
 
@@ -224,7 +245,15 @@
     .spread{grid-template-columns:1fr;}
     .page-left{height:52%;}
     .page-right{height:48%;}
-    .ring{display:none;}
+    .spread .spiral-strip{top:auto; bottom:auto; left:8px !important; right:auto; width:100%; height:22px;
+      transform:none; top:50%; margin-top:-11px;
+      background-image:
+        radial-gradient(circle at 50% 50%, transparent 0 6px, rgba(0,0,0,.35) 6px 8px, transparent 8px),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,.5) 0 2px, transparent 2px);
+      background-size:24px 100%, 24px 100%;
+      background-position:0 0, -2px 0;
+      background-repeat:repeat-x;
+    }
     .camera-prop{width:34%; top:2%; right:2%;}
     .cover .cover-script{font-size:42px;}
   }
@@ -362,20 +391,21 @@
   </div>
 </div>
 
+<!-- NAV: fixed overlay, persists across every section -->
+<nav class="site-nav" id="siteNav">
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#home"><img class="logo-mark" src="logo-white.png" alt="Shay & Co."></a>
+  <button class="nav-toggle" aria-label="Menu">☰</button>
+</nav>
+
 <!-- HERO + PORTFOLIO -->
 <section class="mountain-section" id="home">
-  <nav class="site-nav">
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#work">Portfolio</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="#home"><img class="logo-mark" src="logo-white.png" alt="Shay & Co."></a>
-    <button class="nav-toggle" aria-label="Menu">☰</button>
-  </nav>
-
   <div class="hero-text">
     <span class="script">Stories that stop the scroll.</span>
     <span class="sub">Brand Strategy | Storytelling | Design</span>
@@ -384,12 +414,13 @@
   <div class="album-wrap" id="work">
     <div class="album" id="album">
       <div class="cover" id="albumCover">
+        <div class="spiral-strip"></div>
         <span class="cover-label">Our Work</span>
-        <span class="cover-script">Shivara Jewels</span>
+        <span class="cover-script">Shivara<br>Jewels</span>
         <span class="cover-hint">click to open</span>
       </div>
       <div class="spread">
-        <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+        <div class="spiral-strip" style="left:50%; transform:translateX(-50%);"></div>
         <div class="page-left">
           <div class="scatter-photo sp1"><img src="shivara_01.jpg" alt="Shivara Jewels"></div>
           <div class="scatter-photo sp2"><img src="shivara_06.jpg" alt="Shivara Jewels"></div>
@@ -539,6 +570,15 @@
   window.addEventListener('wheel', revealSite, {passive:true});
   window.addEventListener('touchmove', revealSite, {passive:true});
   window.addEventListener('keydown', revealSite);
+
+  // Fixed nav: add background once scrolled past the top of the hero
+  const siteNav = document.getElementById('siteNav');
+  function updateNav(){
+    if(window.scrollY > 60){ siteNav.classList.add('scrolled'); }
+    else{ siteNav.classList.remove('scrolled'); }
+  }
+  window.addEventListener('scroll', updateNav, {passive:true});
+  updateNav();
 
   // Portfolio album open interaction
   const album = document.getElementById('album');
